@@ -17,7 +17,7 @@ router.get("/api/base", function(req, res) {
   });
 });
 
-router.get("/api/handleRequestURL/get", function(req, res) {
+router.get("/api/handleRequestURL", function(req, res) {
   res.json(req.query);
 });
 
@@ -174,3 +174,5 @@ const port = process.env.PORT || 3005;
 module.exports = app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}, Ctrl+C to stop`);
 });
+
+

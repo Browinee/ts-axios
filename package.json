@@ -6,8 +6,8 @@
   "scripts": {
     "server": "node server/server.js",
     "lint": "tslint  --project tsconfig.json -t codeFrame 'src/**/*.ts'",
-    "client": "cross-env NODE_ENV=development webpack-dev-server --config 'demo/webpack.config.js'",
-    "build": "cross-env NODE_ENV=production webpack --config 'demo/webpack.config.js'",
+    "client": "cross-env NODE_ENV=development webpack-dev-server --hot --config 'webpack.config.js'",
+    "build": "cross-env NODE_ENV=production webpack --config 'webpack.config.js'",
     "start": "npm run client & npm run server"
   },
   "keywords": [
@@ -16,23 +16,24 @@
   "license": "MIT",
   "devDependencies": {
     "cross-env": "^5.2.0",
+    "html-webpack-plugin": "^5.3.2",
     "prettier": "^1.14.3",
     "ts-loader": "^5.3.3",
-    "tslint-loader": "^3.5.4",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
     "tslint-config-standard": "^8.0.1",
-    "webpack": "^4.29.6",
-    "webpack-cli": "^3.2.3",
-    "webpack-dev-server": "^3.2.1"
+    "tslint-loader": "^3.5.4",
+    "webpack": "^5.51.1",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.0.0"
   },
   "dependencies": {
-    "typescript": "^3.3.3333",
-    "body-parser": "^1.18.3",
-    "express": "^4.16.4",
-    "cookie-parser": "^1.4.4",
     "@types/qs": "^6.5.3",
     "atob": "^2.1.2",
-    "qs": "^6.7.0"
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.16.4",
+    "qs": "^6.7.0",
+    "typescript": "^3.3.3333"
   }
 }
