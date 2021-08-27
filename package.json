@@ -6,8 +6,9 @@
   "scripts": {
     "server": "node server/server.js",
     "lint": "tslint  --project tsconfig.json -t codeFrame 'src/**/*.ts'",
-    "start": "cross-env NODE_ENV=development webpack-dev-server --config './examples/webpack.config.js' --host 192.168.1.106 --open --hot  --port 8000",
-    "build": "cross-env NODE_ENV=production webpack --config './examples/webpack.config.js'"
+    "client": "cross-env NODE_ENV=development webpack-dev-server --config 'demo/webpack.config.js'",
+    "build": "cross-env NODE_ENV=production webpack --config 'demo/webpack.config.js'",
+    "start": "npm run client & npm run server"
   },
   "keywords": [
     "typescript"

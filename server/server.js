@@ -10,7 +10,8 @@ app.use(cookieParser());
 
 const router = express.Router();
 
-router.get("/api/base/get", function(req, res) {
+
+router.get("/api/base", function(req, res) {
   res.json({
     msg: `hello world`
   });
@@ -169,7 +170,7 @@ router.get("/api/allAndSpreadB", function(req, res) {
 });
 app.use(router);
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3005;
 module.exports = app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}, Ctrl+C to stop`);
 });

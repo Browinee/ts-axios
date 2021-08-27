@@ -9,10 +9,9 @@ module.exports = {
     if (fs.statSync(fullDir).isDirectory() && fs.existsSync(entry)) {
       entries[dir] = entry;
     }
+    console.log("entries", entries)
     return entries;
   }, {}),
-
-
   output: {
     path: path.join(__dirname, "__build__"),
     filename: "[name].js",
@@ -41,9 +40,8 @@ module.exports = {
     overlay: true,
     open: true,
     proxy: {
-      // 配置跨域
       "/api/": {
-        target: "http://192.168.1.106:3000",
+        target: "http://localhost:3005",
         ws: true,
         changOrigin: true
       }
