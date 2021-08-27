@@ -28,8 +28,7 @@ module.exports = {
     }, {}),
     output: {
         path: path.join(__dirname, "__build__"),
-        filename: '[name]/[name].js',
-        publicPath: "./"
+        filename: 'demo/[name].js',
     },
     resolve: {
         extensions: [".ts", ".tsx", ".js"]
@@ -66,6 +65,5 @@ module.exports = {
             filename: "index.html",
             chunks: []
         }),
-        ...htmlPlugin,
     ]
 };
