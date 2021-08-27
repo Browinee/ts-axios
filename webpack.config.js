@@ -5,8 +5,9 @@ const HTMLPlugin = require("html-webpack-plugin");
 
 const htmlPlugin = fs.readdirSync(__dirname + "/demo").map((dir) => {
     return new HTMLPlugin({
-        filename: dir + "/index.html",
-        chunks:[`${dir}/${dir}`], //引入的js
+        template: `./demo/${dir}/index.html`,
+        filename: `${dir}/index.html`,
+        chunks:[`${dir}`], //引入的js
     })
     // if (fs.statSync(fullDir).isDirectory() && fs.existsSync(entry)) {
     //     entries[dir] = entry;
@@ -20,15 +21,15 @@ module.exports = {
         const fullDir = path.join(__dirname + "/demo", dir);
         const entry = path.join(fullDir, "app.ts");
         if (fs.statSync(fullDir).isDirectory() && fs.existsSync(entry)) {
-            entries[`${dir}/${dir}`] = entry;
+            entries[`${dir}`] = entry;
         }
         console.log("entries", entries)
         return entries;
     }, {}),
     output: {
         path: path.join(__dirname, "__build__"),
-        filename: "[name].js",
-        publicPath: "/__build__/"
+        filename: '[name]/[name].js',
+        publicPath: "./"
     },
     resolve: {
         extensions: [".ts", ".tsx", ".js"]
