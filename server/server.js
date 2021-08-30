@@ -25,7 +25,7 @@ router.post("/api/handleRequestBody", function(req, res) {
   res.json(req.body);
 });
 
-router.post("/api/handleRequestHeader/post", function(req, res) {
+router.post("/api/handleRequestHeader", function(req, res) {
   res.json(req.body);
 });
 
