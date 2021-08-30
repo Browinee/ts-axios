@@ -31,7 +31,6 @@ router.post("/api/handleRequestHeader", function(req, res) {
 });
 
 router.post("/api/getResponse", function(req, res) {
-  console.log("req----", req.body)
   res.json(req.body);
 });
 router.get("/api/handleError", function(req, res) {

@@ -3,8 +3,7 @@ import {parseHeaders} from "./helpers/header";
 
 export default function xhr (config: AxiosRequestConfig): AxiosPromise {
     return new Promise((resolve, reject) => {
-        console.log("config0000", config)
-        const {data = null, url, method = 'get', headers = {}, responseType} = config;
+        const {data = null, url, method = 'get', headers = {}, responseType, timeout} = config;
         // Step 1: create XMLHttpRequest object
         const request = new XMLHttpRequest();
         // Step 2: config
@@ -21,12 +20,19 @@ export default function xhr (config: AxiosRequestConfig): AxiosPromise {
         if(responseType) {
             request.responseType = responseType;
         }
+
+
+
         // Step 3: send request
         request.send(JSON.stringify(data));
 
         // Step 4: register event
         request.onreadystatechange = function handleLoad () {
             if(request.readyState !== 4) {
+                return;
+            }
+            // network error and timeout error
+            if (request.status === 0) {
                 return;
             }
             const responseHeaders = parseHeaders(request.getAllResponseHeaders());
@@ -39,7 +45,26 @@ export default function xhr (config: AxiosRequestConfig): AxiosPromise {
                 config,
                 request,
             };
-            resolve(response);
+            handleResponse(response);
+        }
+
+        // 4.1 network error
+        request.onerror = function() {
+            reject(new Error("Network Error"));
+        }
+        // 4.2timeout error
+        if (timeout) {
+            request.timeout = timeout;
+        }
+        request.ontimeout = function() {
+            reject(new Error(`Timeout of ${timeout} ms exceeded`));
+        };
+        function handleResponse(response: AxiosResponse): void {
+            if (response.status >= 200 && response.status < 300) {
+                resolve(response);
+            } else {
+                reject(new Error(`Request failed with status code ${response.status}`));
+            }
         }
     })
 }
