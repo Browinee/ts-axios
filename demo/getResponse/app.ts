@@ -8,7 +8,7 @@ axios({
         b: 2
     }
 }).then(res => {
-    console.log(res);
+    console.log("No response type", res);
 });
 
 axios({
@@ -20,5 +20,5 @@ axios({
         b: 4
     }
 }).then(res => {
-    console.log(res);
+    console.log("With response type: json", res);
 });
