@@ -25,8 +25,7 @@ function axios (config: AxiosRequestConfig) {
         transformFn(cfg);
         return cfg
     }, config);
-    console.log("tracfg", typeof transformedUrlConfig.data)
-    xhr(transformedUrlConfig)
+    return xhr(transformedUrlConfig);
 }
 
 export default axios
