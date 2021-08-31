@@ -1,6 +1,6 @@
 import {AxiosPromise, AxiosRequestConfig, AxiosResponse} from "../types";
-import {parseHeaders} from "./helpers/header";
-import {createError} from "./helpers/error";
+import {parseHeaders} from "../helpers/header";
+import {createError} from "../helpers/error";
 
 export default function xhr (config: AxiosRequestConfig): AxiosPromise {
     return new Promise((resolve, reject) => {
@@ -8,7 +8,7 @@ export default function xhr (config: AxiosRequestConfig): AxiosPromise {
         // Step 1: create XMLHttpRequest object
         const request = new XMLHttpRequest();
         // Step 2: config
-        request.open(method.toUpperCase(), url, true);
+        request.open(method.toUpperCase(), url||"", true);
 
         Object.keys(headers).forEach(name => {
             // if data is null, no need for Content-Type

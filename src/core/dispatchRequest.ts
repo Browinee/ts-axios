@@ -1,12 +1,12 @@
 import {AxiosRequestConfig, AxiosResponse} from "../types";
 import xhr from './xhr'
-import {bulidURL} from "./helpers/url";
-import {transformRequest, transformResponse} from "./helpers/data";
-import {processHeaders} from "./helpers/header";
+import {bulidURL} from "../helpers/url";
+import {transformRequest, transformResponse} from "../helpers/data";
+import {processHeaders} from "../helpers/header";
 
 
 function transformUrl (config: AxiosRequestConfig): void{
-    const {url, params} = config
+    const {url = "", params} = config
     config.url = bulidURL(url, params)
 }
 
@@ -24,7 +24,7 @@ function transformResponseData(res: AxiosResponse): AxiosResponse {
     return res;
 }
 
-function axios (config: AxiosRequestConfig) {
+function dispatchRequest (config: AxiosRequestConfig) {
     const transformedUrlConfig = [transformUrl,transformHeaders, transformRequestData].reduce((cfg, transformFn) => {
         transformFn(cfg);
         return cfg
@@ -32,4 +32,4 @@ function axios (config: AxiosRequestConfig) {
     return xhr(transformedUrlConfig).then(transformResponseData);
 }
 
-export default axios
+export default dispatchRequest

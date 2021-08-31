@@ -51,33 +51,33 @@ router.get("/api/handleError/timeout", function(req, res) {
     });
   }, 3000);
 });
-router.get("/api/expandInterface/get", function(req, res) {
+router.get("/api/expandInterface", function(req, res) {
   res.json({
     msg: "hello world"
   });
 });
 
-router.options("/api/expandInterface/options", function(req, res) {
+router.options("/api/expandInterface", function(req, res) {
   res.end();
 });
 
-router.delete("/api/expandInterface/delete", function(req, res) {
+router.delete("/api/expandInterface", function(req, res) {
   res.end();
 });
 
-router.head("/api/expandInterface/head", function(req, res) {
+router.head("/api/expandInterface", function(req, res) {
   res.end();
 });
 
-router.post("/api/expandInterface/post", function(req, res) {
+router.post("/api/expandInterface", function(req, res) {
   res.json(req.body);
 });
 
-router.put("/api/expandInterface/put", function(req, res) {
+router.put("/api/expandInterface", function(req, res) {
   res.json(req.body);
 });
 
-router.patch("/api/expandInterface/patch", function(req, res) {
+router.patch("/api/expandInterface", function(req, res) {
   res.json(req.body);
 });
 

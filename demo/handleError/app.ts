@@ -1,4 +1,4 @@
-import axios from "../../src/index";
+import axios from '../../src/axios';
 
 // 1.正常情况
 axios({
