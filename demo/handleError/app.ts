@@ -21,7 +21,10 @@ axios({
         console.log(res);
     })
     .catch(e => {
-        console.log(e);
+        console.log("handleError1: message", e.message);
+        console.log("handleError1: config", e.config);
+        console.log("handleError1: config", e.request);
+        console.log("handleError1: config", e.code);
     });
 
 
