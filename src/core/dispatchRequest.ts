@@ -7,11 +7,13 @@ import {processHeaders} from "../helpers/header";
 
 function transformUrl (config: AxiosRequestConfig): void{
     const {url = "", params} = config
+    console.log("config", config)
     config.url = bulidURL(url, params)
 }
 
 function transformRequestData (config: AxiosRequestConfig): void {
     const {data} = config
+
     config.data = transformRequest(data);
 }
 
