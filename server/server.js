@@ -85,10 +85,10 @@ router.post("/api/addParameters", function(req, res) {
   res.json(req.body);
 });
 
-router.get("/api/getuser", function(req, res) {
+router.get("/api/user", function(req, res) {
   res.json({
     msg: "hello world",
-    data: { name: "难凉热血", age: 18 }
+    data: { name: "hi~~", age: 18 }
   });
 });
 

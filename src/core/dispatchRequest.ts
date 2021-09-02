@@ -5,7 +5,7 @@ import {transformRequest, transformResponse} from "../helpers/data";
 import {processHeaders} from "../helpers/header";
 
 
-function transformUrl (config: AxiosRequestConfig): void{
+export function transformUrl (config: AxiosRequestConfig): void{
     const {url = "", params} = config
     console.log("config", config)
     config.url = bulidURL(url, params)

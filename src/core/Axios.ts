@@ -1,10 +1,66 @@
-import {AxiosPromise, AxiosRequestConfig, Method} from "../types";
-import dispatchRequest from "./dispatchRequest";
+import {
+    AxiosPromise,
+    AxiosRequestConfig,
+    AxiosResponse,
+    Method,
+    RejectedFn,
+    ResolvedFn
+} from "../types";
+import dispatchRequest, {transformUrl} from "./dispatchRequest";
+import InterceptorManager from "./InterceptorManager";
 
+interface PromiseArr<T> {
+    resolved: ResolvedFn<T> | ((config: AxiosRequestConfig) => AxiosPromise);
+    rejected?: RejectedFn;
+}
 
 export default class Axios {
-    request (config: AxiosRequestConfig): AxiosPromise {
-        return dispatchRequest(config)
+    interceptors: {
+        request: InterceptorManager<AxiosRequestConfig>;
+        response: InterceptorManager<AxiosResponse<any>>;
+    };
+
+    constructor (defaultConfig?: AxiosRequestConfig) {
+        this.defaults = defaultConfig || {};
+        this.interceptors = {
+            request: new InterceptorManager<AxiosRequestConfig>(),
+            response: new InterceptorManager<AxiosResponse>()
+        };
+    }
+
+    request (url: any, config?: any): any {
+        if(typeof url === "string") {
+            config = config ? config : {};
+            config.url = url;
+        } else {
+            config = url;
+        }
+
+        let arr: PromiseArr<any>[] = [
+            {
+                resolved: dispatchRequest,
+                rejected: undefined
+            }
+        ];
+
+        this.interceptors.request.interceptors.forEach(interceptor => {
+            if(interceptor !== null) {
+                arr.unshift(interceptor);
+            }
+        });
+        this.interceptors.response.interceptors.forEach(interceptor => {
+            if(interceptor !== null) {
+                arr.push(interceptor);
+            }
+        });
+        let promise = Promise.resolve(config);
+
+        while (arr.length) {
+            const {resolved, rejected} = arr.shift()!;
+            promise = promise.then(resolved, rejected);
+        }
+
+        return promise;
     }
 
     get (url: string, config?: AxiosRequestConfig): AxiosPromise {
@@ -33,8 +89,8 @@ export default class Axios {
 
     patch (url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise {
         return this._requestMethodWithData("patch", url, data, config);
-
     }
+
 
     _requestMethodWithoutData (
         method: Method,
@@ -64,4 +120,3 @@ export default class Axios {
         );
     }
 }
-
