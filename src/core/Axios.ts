@@ -21,7 +21,6 @@ export default class Axios {
     };
 
     constructor (defaultConfig?: AxiosRequestConfig) {
-        this.defaults = defaultConfig || {};
         this.interceptors = {
             request: new InterceptorManager<AxiosRequestConfig>(),
             response: new InterceptorManager<AxiosResponse>()
