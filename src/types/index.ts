@@ -1,5 +1,3 @@
-import CancelToken from "../cancel/cancelToken";
-
 export type Method = 'get' | 'GET'
     | 'delete' | 'Delete'
     | 'head' | 'HEAD'
@@ -7,6 +5,10 @@ export type Method = 'get' | 'GET'
     | 'post' | 'POST'
     | 'put' | 'PUT'
     | 'patch' | 'PATCH'
+
+export interface AxiosTransformer {
+    (data: any, headers?: any): any;
+}
 
 export interface AxiosRequestConfig {
     url?: string;
@@ -16,6 +18,9 @@ export interface AxiosRequestConfig {
     headers?: any;
     responseType?: XMLHttpRequestResponseType;
     timeout?: number;
+    transformRequest?: AxiosTransformer | AxiosTransformer[];
+    transformResponse?: AxiosTransformer | AxiosTransformer[];
+    [propName: string]: any;
     cancelToken?:CancelTokenProps;
 
 }

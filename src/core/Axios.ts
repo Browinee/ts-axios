@@ -32,6 +32,7 @@ export default class Axios {
     }
 
     request (url: any, config?: any): any {
+
         if(typeof url === "string") {
             config = config ? config : {};
             config.url = url;
@@ -39,7 +40,6 @@ export default class Axios {
             config = url;
         }
         config = mergeConfig(this.defaults, config);
-
         let arr: PromiseArr<any>[] = [
             {
                 resolved: dispatchRequest,
