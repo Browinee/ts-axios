@@ -16,6 +16,7 @@ export interface AxiosRequestConfig {
     timeout?: number;
 }
 
+export type AxiosRequestConfigKeys = keyof AxiosRequestConfig;
 export interface AxiosResponse<T = any> {
     data: T;
     status: number;
@@ -38,6 +39,8 @@ export interface AxiosError extends Error {
 
 
 export interface Axios {
+    defaults: AxiosRequestConfig;
+
     interceptors: {
         request: AxiosInterceptorManager<AxiosRequestConfig>;
         response: AxiosInterceptorManager<AxiosResponse>;

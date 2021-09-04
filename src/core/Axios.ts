@@ -8,6 +8,7 @@ import {
 } from "../types";
 import dispatchRequest, {transformUrl} from "./dispatchRequest";
 import InterceptorManager from "./InterceptorManager";
+import mergeConfig from "./mergeConfig";
 
 interface PromiseArr<T> {
     resolved: ResolvedFn<T> | ((config: AxiosRequestConfig) => AxiosPromise);
@@ -15,12 +16,15 @@ interface PromiseArr<T> {
 }
 
 export default class Axios {
+    defaults: AxiosRequestConfig;
     interceptors: {
         request: InterceptorManager<AxiosRequestConfig>;
         response: InterceptorManager<AxiosResponse<any>>;
     };
 
-    constructor (defaultConfig?: AxiosRequestConfig) {
+    constructor (defaultConfig: AxiosRequestConfig) {
+        this.defaults = defaultConfig;
+
         this.interceptors = {
             request: new InterceptorManager<AxiosRequestConfig>(),
             response: new InterceptorManager<AxiosResponse>()
@@ -34,6 +38,7 @@ export default class Axios {
         } else {
             config = url;
         }
+        config = mergeConfig(this.defaults, config);
 
         let arr: PromiseArr<any>[] = [
             {
