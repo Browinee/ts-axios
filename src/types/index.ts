@@ -1,3 +1,5 @@
+import CancelToken from "../cancel/cancelToken";
+
 export type Method = 'get' | 'GET'
     | 'delete' | 'Delete'
     | 'head' | 'HEAD'
@@ -14,6 +16,8 @@ export interface AxiosRequestConfig {
     headers?: any;
     responseType?: XMLHttpRequestResponseType;
     timeout?: number;
+    cancelToken?:CancelTokenProps;
+
 }
 
 export type AxiosRequestConfigKeys = keyof AxiosRequestConfig;
@@ -69,6 +73,8 @@ export interface AxiosInstance extends Axios {
 
 export interface AxiosStatic extends AxiosInstance{
     create(config?:AxiosRequestConfig):AxiosInstance
+    CancelToken:CancelTokenStatic
+
 }
 export interface ResolvedFn<T = any> {
     (val: T): T | Promise<T>;
@@ -80,4 +86,19 @@ export interface RejectedFn {
 export interface AxiosInterceptorManager<T> {
     use(resolved: ResolvedFn<T>, rejected?: RejectedFn): number;
     eject(id: number): void;
+}
+export interface CancelTokenProps {
+    promise:Promise<string>
+    reason?:string
+}
+export interface CancelExecutor {
+    (cancel: Canceler): void;
+}
+export interface Canceler {
+    (message?: string): void
+}
+
+export interface CancelTokenStatic {
+    new(executor: CancelExecutor): CancelToken
+
 }
