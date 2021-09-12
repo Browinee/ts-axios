@@ -1,4 +1,4 @@
-import {CancelExecutor, CancelTokenProps} from "../types";
+import {Canceler, CancelExecutor, CancelTokenProps, CancelTokenSource} from "../types";
 
 class Cancel {
 }
@@ -24,4 +24,17 @@ export default class CancelToken implements CancelTokenProps {
             resolvePromise(this.reason)
         })
     }
+    static source():CancelTokenSource{
+        let cancel:Canceler;
+        let token = new CancelToken(c => {
+            cancel = c
+        })
+        return {
+        /* @ts-ignore */
+            cancel,
+            token
+        }
+
+    }
 }
+

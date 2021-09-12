@@ -1,3 +1,5 @@
+import CancelToken from "../cancel/cancelToken";
+
 export type Method = 'get' | 'GET'
     | 'delete' | 'Delete'
     | 'head' | 'HEAD'
@@ -105,5 +107,11 @@ export interface Canceler {
 
 export interface CancelTokenStatic {
     new(executor: CancelExecutor): CancelToken
+    source(): CancelTokenSource;
 
+
+}
+export interface CancelTokenSource {
+    token: CancelToken;
+    cancel: Canceler;
 }
