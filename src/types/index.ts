@@ -108,7 +108,8 @@ export interface AxiosInterceptorManager<T> {
 
 export interface CancelTokenProps {
     promise: Promise<string>
-    reason?:Cancel
+    reason?:Cancel;
+    throwIfRequested: () =>  void;
 }
 
 export interface CancelExecutor {
@@ -121,10 +122,7 @@ export interface Canceler {
 
 export interface CancelTokenStatic {
     new (executor: CancelExecutor): CancelToken
-
     source (): CancelTokenSource;
-
-
 }
 
 export interface CancelTokenSource {

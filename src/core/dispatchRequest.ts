@@ -19,8 +19,13 @@ function transformResponseData (res: AxiosResponse): AxiosResponse {
 function flattenHeader (config: AxiosRequestConfig): any {
     return flattenHeaders(config.headers, config.method!)
 }
-
+function throwIfCancellationRequested(config:AxiosRequestConfig) {
+    if (config.cancelToken) {
+        config.cancelToken.throwIfRequested();
+    }
+}
 function dispatchRequest (config: AxiosRequestConfig) {
+    throwIfCancellationRequested(config);
     config.url = transformUrl(config);
     config.data = transform(config.data, config.headers, config.transformRequest);
     config.headers = flattenHeader(config);

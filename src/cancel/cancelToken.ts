@@ -35,5 +35,10 @@ export default class CancelToken implements CancelTokenProps {
         }
 
     }
+    throwIfRequested():void {
+        if(this.reason) {
+            throw this.reason;
+        }
+    }
 }
 
