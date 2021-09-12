@@ -22,7 +22,9 @@ axios
         cancelToken: source.token
     })
     .catch(function(e) {
-        console.log(e);
+        if (axios.isCancel(e)){
+            console.log(`Cancel：${e.message}`);
+        }
 
     });
 setTimeout(() => {
