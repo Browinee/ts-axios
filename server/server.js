@@ -114,7 +114,7 @@ router.get("/api/cancel", function(req, res) {
 
 // 添加withCredentials
 const cors = {
-  "Access-Control-Allow-Origin": "http://192.168.1.106:8000",
+  "Access-Control-Allow-Origin": "localhost:8080",
   "Access-Control-Allow-Credentials": true,
   "Access-Control-Allow-Methods": "POST, GET, PUT, DELETE, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type"
@@ -124,7 +124,6 @@ router.post("/api/addWithCredentials", function(req, res) {
   res.set(cors);
   res.json(req.cookies);
 });
-
 router.options("/api/addWithCredentials", function(req, res) {
   res.set(cors);
   res.end();

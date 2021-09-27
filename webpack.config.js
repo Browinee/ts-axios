@@ -51,13 +51,13 @@ module.exports = {
     devServer: {
         open: true,
         hot: true,
-        proxy: {
-            "/api/": {
-                target: "http://localhost:3005",
-                ws: true,
-                changOrigin: true
-            }
-        }
+        // proxy: {
+        //     "/api/": {
+        //         target: "http://localhost:3005",
+        //         ws: true,
+        //         changOrigin: true
+        //     }
+        // }
     },
     plugins: [
         new HTMLPlugin({
