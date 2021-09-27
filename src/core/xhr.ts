@@ -4,7 +4,7 @@ import {createError} from "../helpers/error";
 
 export default function xhr (config: AxiosRequestConfig): AxiosPromise {
     return new Promise((resolve, reject) => {
-        const {data = null, url, method = 'get', headers = {}, responseType, timeout, cancelToken, withCredentials} = config;
+        const {data = null, url, method = 'get', headers = {}, responseType, timeout, cancelToken, withCredentials, validateStatus} = config;
         // Step 1: create XMLHttpRequest object
         const request = new XMLHttpRequest();
         // Step 2: config
@@ -82,7 +82,7 @@ export default function xhr (config: AxiosRequestConfig): AxiosPromise {
             );
         };
         function handleResponse(response: AxiosResponse): void {
-            if (response.status >= 200 && response.status < 300) {
+            if (!validateStatus || validateStatus(response.status)) {
                 resolve(response);
             } else {
                 reject(  createError(

@@ -19,7 +19,10 @@ const defaults: AxiosRequestConfig = {
         function(data: any) {
             return transformResponse(data);
         }
-    ]
+    ],
+    validateStatus(status: Number): boolean {
+        return status >= 200 && status < 300
+    }
 };
 
 

@@ -151,6 +151,10 @@ router.get("/api/HTTPAuthorization", function(req, res) {
     password: password
   });
 });
+router.get("/api/checkStatus", function(req, res) {
+  res.status(304);
+  res.end();
+});
 router.get("/api/addParamsSerializer", function(req, res) {
   res.end();
 });
