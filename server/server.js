@@ -155,7 +155,7 @@ router.get("/api/addParamsSerializer", function(req, res) {
   res.end();
 });
 router.get("/api/baseURL", function(req, res) {
-  res.set(cors);
+  // res.set(cors);
   res.end();
 });
 router.get("/api/allAndSpreadA", function(req, res) {

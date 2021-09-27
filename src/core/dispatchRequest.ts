@@ -1,14 +1,14 @@
 import {AxiosRequestConfig, AxiosResponse} from "../types";
 import xhr from './xhr'
-import {bulidURL} from "../helpers/url";
-import {transformRequest, transformResponse} from "../helpers/data";
-import {flattenHeaders, processHeaders} from "../helpers/header";
+import {bulidURL, combineURLs, isAbsoluteURL} from "../helpers/url";
+import {flattenHeaders} from "../helpers/header";
 import transform from "./transform";
 
 
 export function transformUrl (config: AxiosRequestConfig): string {
-    const {url = "", params} = config;
-    return bulidURL(url, params);
+    const {url = "", params, baseURL} = config;
+    const combinedUrl = baseURL && !isAbsoluteURL(url!) ? combineURLs(baseURL, url) : url;
+    return bulidURL(combinedUrl, params);
 }
 
 function transformResponseData (res: AxiosResponse): AxiosResponse {
@@ -19,11 +19,13 @@ function transformResponseData (res: AxiosResponse): AxiosResponse {
 function flattenHeader (config: AxiosRequestConfig): any {
     return flattenHeaders(config.headers, config.method!)
 }
-function throwIfCancellationRequested(config:AxiosRequestConfig) {
-    if (config.cancelToken) {
+
+function throwIfCancellationRequested (config: AxiosRequestConfig) {
+    if(config.cancelToken) {
         config.cancelToken.throwIfRequested();
     }
 }
+
 function dispatchRequest (config: AxiosRequestConfig) {
     throwIfCancellationRequested(config);
     config.url = transformUrl(config);

@@ -29,6 +29,7 @@ export interface AxiosRequestConfig {
     withCredentials?: boolean;
 
     cancelToken?: CancelTokenProps;
+    baseURL?: string;
 
 }
 
