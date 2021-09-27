@@ -134,9 +134,8 @@ router.get("/api/defendXSRF", function(req, res) {
   res.cookie("XSRF-NLRX", "NLRX");
   res.json(req.cookies);
 });
-// 文
 router.get("/api/downloadFile", function(req, res) {
-  res.sendFile(__dirname + "/1.mp4");
+  res.sendFile(__dirname + "/test.png");
 });
 
 // HTTP

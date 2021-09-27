@@ -1,6 +1,7 @@
 import {AxiosPromise, AxiosRequestConfig, AxiosResponse} from "../types";
 import {parseHeaders} from "../helpers/header";
 import {createError} from "../helpers/error";
+import {isFormData} from "../helpers/util";
 
 export default function xhr (config: AxiosRequestConfig): AxiosPromise {
     return new Promise((resolve, reject) => {
@@ -15,6 +16,8 @@ export default function xhr (config: AxiosRequestConfig): AxiosPromise {
             cancelToken,
             withCredentials,
             validateStatus,
+            onDownloadProgress,
+            onUploadProgress
         } = config;
         // Step 1: create XMLHttpRequest object
         const request = new XMLHttpRequest();
@@ -33,13 +36,22 @@ export default function xhr (config: AxiosRequestConfig): AxiosPromise {
             }
             request.setRequestHeader(name, headers[name])
         })
-
+        if (isFormData(data)) {
+            delete headers["Content-Type"];
+        }
         if(responseType) {
             request.responseType = responseType;
         }
 
         if(withCredentials) {
             request.withCredentials = true
+        }
+        if (onDownloadProgress) {
+            request.onprogress = onDownloadProgress;
+        }
+
+        if (onUploadProgress) {
+            request.upload.onprogress = onUploadProgress;
         }
 
         // Step 3: send request

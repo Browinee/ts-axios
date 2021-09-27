@@ -3,6 +3,8 @@ import {transformRequest, transformResponse} from "./helpers/data";
 import {processHeaders} from "./helpers/header";
 
 const defaults: AxiosRequestConfig = {
+    xsrfCookieName: 'XSRF-TOKEN',
+    xsrfHeaderName: 'X-XSRF-TOKEN',
     timeout: 0,
     headers: {
         common: {
