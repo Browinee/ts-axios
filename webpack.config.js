@@ -3,19 +3,14 @@ const path = require("path");
 const webpack = require("webpack");
 const HTMLPlugin = require("html-webpack-plugin");
 
-const htmlPlugin = fs.readdirSync(__dirname + "/demo").map((dir) => {
+const htmlPlugins = fs.readdirSync(__dirname + "/demo").map((dir) => {
     return new HTMLPlugin({
         template: `./demo/${dir}/index.html`,
         filename: `${dir}/index.html`,
         chunks:[`${dir}`], //引入的js
     })
-    // if (fs.statSync(fullDir).isDirectory() && fs.existsSync(entry)) {
-    //     entries[dir] = entry;
-    // }
-    // console.log("entries", entries)
-    // return entries;
 })
-
+console.log("htmlPlugins", htmlPlugins)
 module.exports = {
     entry: fs.readdirSync(__dirname + "/demo").reduce((entries, dir) => {
         const fullDir = path.join(__dirname + "/demo", dir);
@@ -28,7 +23,7 @@ module.exports = {
     }, {}),
     output: {
         path: path.join(__dirname, "__build__"),
-        filename: 'demo/[name].js',
+        filename: '[name].js',
     },
     resolve: {
         extensions: [".ts", ".tsx", ".js"]
@@ -60,10 +55,16 @@ module.exports = {
         }
     },
     plugins: [
+        ...htmlPlugins,
         new HTMLPlugin({
             template: "./index.html",
             filename: "index.html",
             chunks: []
         }),
+        // new HTMLPlugin({
+        //     template: "./demo/progressMonitor/index.html",
+        //     filename: "index.html",
+        //     chunks: []
+        // }),
     ]
 };
