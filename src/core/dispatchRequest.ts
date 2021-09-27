@@ -6,9 +6,9 @@ import transform from "./transform";
 
 
 export function transformUrl (config: AxiosRequestConfig): string {
-    const {url = "", params, baseURL} = config;
+    const {url = "", params, baseURL, paramsSerializer} = config;
     const combinedUrl = baseURL && !isAbsoluteURL(url!) ? combineURLs(baseURL, url) : url;
-    return bulidURL(combinedUrl, params);
+    return bulidURL(combinedUrl, params, paramsSerializer);
 }
 
 function transformResponseData (res: AxiosResponse): AxiosResponse {

@@ -30,7 +30,7 @@ export interface AxiosRequestConfig {
 
     cancelToken?: CancelTokenProps;
     baseURL?: string;
-
+    paramsSerializer?: (params: any) => string;
 }
 
 export type AxiosRequestConfigKeys = keyof AxiosRequestConfig;

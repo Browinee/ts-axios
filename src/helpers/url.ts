@@ -1,4 +1,4 @@
-import {isDate, isObject} from './util';
+import {isDate, isObject, isURLSearchParams} from './util';
 
 const encode = (val: string): string => {
     const a = encodeURIComponent(val)
@@ -13,7 +13,8 @@ const encode = (val: string): string => {
 }
 const hasHash = (url: string) => url.includes('#');
 
-export function bulidURL (url: string, params?: any): string {
+export function bulidURL (url: string, params?: any, paramsSerializer?: (params: any) => string
+): string {
     if(!params) {
         return url;
     }
@@ -23,34 +24,41 @@ export function bulidURL (url: string, params?: any): string {
         url = url.slice(0, markIndex)
         return url
     }
-    const parts: string[] = [];
-    Object.keys(params).forEach((key) => {
-        let val = params[key]
-        // 如果有为null或undefined的值，不处理直接跳出循环
-        if(val === null || typeof val === 'undefined') {
-            return
-        }
-        let values: string[]
-        // if val is array, assign to values directly.
-        if(Array.isArray(val)) {
-            values = val
-            key += '[]'
-        } else {
-            // if not array, make it array, and we could
-            // forEach below.
-            values = [val]
-        }
-        values.forEach((val) => {
-            if(isDate(val)) {
-                val = val.toISOString()
-            } else if(isObject(val)) {
-                val = JSON.stringify(val)
-            }
-            parts.push(`${encode(key)}=${encode(val)}`)
-        })
-    })
+    let serializedParams;
+    if (paramsSerializer) {
+        serializedParams = paramsSerializer(params);
+    } else if (isURLSearchParams(params)) {
+        serializedParams = params.toString();
+    } else {
 
-    const serializedParams = parts.join('&')
+        const parts: string[] = [];
+        Object.keys(params).forEach((key) => {
+            let val = params[key]
+            // 如果有为null或undefined的值，不处理直接跳出循环
+            if(val === null || typeof val === 'undefined') {
+                return
+            }
+            let values: string[]
+            // if val is array, assign to values directly.
+            if(Array.isArray(val)) {
+                values = val
+                key += '[]'
+            } else {
+                // if not array, make it array, and we could
+                // forEach below.
+                values = [val]
+            }
+            values.forEach((val) => {
+                if(isDate(val)) {
+                    val = val.toISOString()
+                } else if(isObject(val)) {
+                    val = JSON.stringify(val)
+                }
+                parts.push(`${encode(key)}=${encode(val)}`)
+            })
+        })
+         serializedParams = parts.join('&')
+    }
 
     if(serializedParams) {
         // check if url already contains "?"
@@ -65,10 +73,10 @@ export const isAbsoluteURL = (url: string): boolean => {
     return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
 }
 
-export const  combineURLs = (
+export const combineURLs = (
     baseURL: string,
     relativeURL?: string
-): string  => {
+): string => {
     return relativeURL
         ? baseURL.replace(/\/+$/, "") + "/" + relativeURL.replace(/^\/+/, "")
         : baseURL;
