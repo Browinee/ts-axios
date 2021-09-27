@@ -32,8 +32,13 @@ export interface AxiosRequestConfig {
     baseURL?: string;
     paramsSerializer?: (params: any) => string;
     validateStatus?: (status: Number) => Boolean;
-}
+    auth?: AxiosBasicCredentials;
 
+}
+export interface AxiosBasicCredentials {
+    username: string;
+    password: string;
+}
 export type AxiosRequestConfigKeys = keyof AxiosRequestConfig;
 
 export interface AxiosResponse<T = any> {
