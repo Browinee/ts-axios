@@ -31,7 +31,6 @@ export interface AxiosRequestConfig {
     cancelToken?: CancelTokenProps;
     baseURL?: string;
     paramsSerializer?: (params: any) => string;
-    validateStatus?: (status: Number) => Boolean;
     auth?: AxiosBasicCredentials;
 
 }
