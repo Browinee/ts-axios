@@ -7,7 +7,7 @@ axios.get("/api/checkStatus").then(res => {
 
 axios
     .get("/api/checkStatus", {
-        validateStatus: status => status >= 200 && status < 400
+        validateStatus: (status:number) => status >= 200 && status < 400
     })
     .then(res => {
         console.log("checkStatus", res);

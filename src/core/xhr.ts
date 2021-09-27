@@ -23,7 +23,7 @@ export default function xhr (config: AxiosRequestConfig): AxiosPromise {
         if(auth) {
             const username = auth.username || ""
             const password = auth.password || ""
-            headers["Authorization"] = "Basic" + window.btoa(username + ":" + password);
+            headers["Authorization"] = "Basic " + window.btoa(username + ":" + password);
         }
         console.log("headers", headers);
         Object.keys(headers).forEach(name => {

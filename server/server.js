@@ -143,6 +143,7 @@ router.get("/api/downloadFile", function(req, res) {
 const atob = require("atob");
 router.get("/api/HTTPAuthorization", function(req, res) {
   const auth = req.headers.authorization;
+  console.log("username",  req.headers);
   const [type, credentials] = auth.split(" ");
   const [username, password] = atob(credentials).split(":");
   res.json({
