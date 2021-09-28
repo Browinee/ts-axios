@@ -2,6 +2,8 @@ import {AxiosPromise, AxiosRequestConfig, AxiosResponse} from "../types";
 import {parseHeaders} from "../helpers/header";
 import {createError} from "../helpers/error";
 import {isFormData} from "../helpers/util";
+import isURLSameOrigin from "../helpers/isURLSameOrigin";
+import cookies from "../helpers/cookies";
 
 export default function xhr (config: AxiosRequestConfig): AxiosPromise {
     return new Promise((resolve, reject) => {
@@ -17,7 +19,9 @@ export default function xhr (config: AxiosRequestConfig): AxiosPromise {
             withCredentials,
             validateStatus,
             onDownloadProgress,
-            onUploadProgress
+            onUploadProgress,
+            xsrfCookieName,
+            xsrfHeaderName
         } = config;
         // Step 1: create XMLHttpRequest object
         const request = new XMLHttpRequest();
@@ -28,7 +32,16 @@ export default function xhr (config: AxiosRequestConfig): AxiosPromise {
             const password = auth.password || ""
             headers["Authorization"] = "Basic " + window.btoa(username + ":" + password);
         }
-        console.log("headers", headers);
+
+        const xsrfValue =
+            (withCredentials || isURLSameOrigin(url!)) && xsrfCookieName
+                ? cookies.read(xsrfCookieName)
+                : undefined;
+
+        if (xsrfValue) {
+            headers[xsrfHeaderName!] = xsrfValue;
+        }
+
         Object.keys(headers).forEach(name => {
             // if data is null, no need for Content-Type
             if(data === null && name.toLowerCase() === 'content-type') {
